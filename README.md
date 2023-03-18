@@ -404,8 +404,114 @@ The most commonly used openapi-generator-cli commands are:
 
 Now, let's generate this client library!
 
-_JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED" openapi-generator generate -i http://127.0.0.1:8000/openapi.json -g java -o ./generated
+The openapi generator takes a few things as input to its cli:
 
-poetry run pip install ./generated
+* an input URL. This is the URL to the openAPI json or yaml file. It can also be a path on disk.
+* a generator language (python/java/etc.). For a full list of supported generators see [these docs](https://github.com/OpenAPITools/openapi-generator).
+* an output directory to store the generated client library.
 
-Now you can use it
+So the full command might look like:
+```shell
+_JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED" openapi-generator generate -i http://127.0.0.1:8000/openapi.json -g python -o ./generated
+```
+
+So, let's give this a run:
+```shell
+prompt> _JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED" \
+  openapi-generator \
+  generate \
+  -i http://127.0.0.1:8000/openapi.json \
+  -g python \
+  -o ./generated
+Picked up _JAVA_OPTIONS: --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED
+[main] INFO  o.o.codegen.DefaultGenerator - Generating with dryRun=false
+[main] INFO  o.o.codegen.DefaultGenerator - OpenAPI Generator: python (client)
+[main] INFO  o.o.codegen.DefaultGenerator - Generator 'python' is considered stable.
+[main] INFO  o.o.c.l.AbstractPythonCodegen - Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE="/usr/local/bin/yapf -i"' (Linux/Mac)
+[main] INFO  o.o.c.l.AbstractPythonCodegen - NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).
+[main] INFO  o.o.c.languages.PythonClientCodegen - Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE="/usr/local/bin/yapf -i"' (Linux/Mac)
+[main] INFO  o.o.c.languages.PythonClientCodegen - NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).
+[main] INFO  o.o.c.languages.PythonClientCodegen - generateAliasAsModel is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums
+[main] INFO  o.o.codegen.utils.URLPathUtils - 'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [http://localhost] for server URL [http://localhost/]
+[main] INFO  o.o.codegen.utils.URLPathUtils - 'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [http://localhost] for server URL [http://localhost/]
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/http_validation_error.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/http_validation_error.pyi
+[main] INFO  o.o.codegen.TemplateManager - Skipped /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_models/test_http_validation_error.py (Test files never overwrite an existing file of the same name.)
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/docs/models/HTTPValidationError.md
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/ping_request.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/ping_request.pyi
+[main] INFO  o.o.codegen.TemplateManager - Skipped /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_models/test_ping_request.py (Test files never overwrite an existing file of the same name.)
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/docs/models/PingRequest.md
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/ping_response.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/ping_response.pyi
+[main] INFO  o.o.codegen.TemplateManager - Skipped /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_models/test_ping_response.py (Test files never overwrite an existing file of the same name.)
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/docs/models/PingResponse.md
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/validation_error.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/validation_error.pyi
+[main] INFO  o.o.codegen.TemplateManager - Skipped /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_models/test_validation_error.py (Test files never overwrite an existing file of the same name.)
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/docs/models/ValidationError.md
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/delete.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/delete.pyi
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/get.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/get.pyi
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/post.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/post.pyi
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/paths/ping/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/tag_to_api.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/path_to_api.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/tags/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/paths/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/paths/ping.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/test_delete.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/test_get.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/test_post.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/test_ping/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_paths/__init__.py
+[main] INFO  o.o.codegen.utils.URLPathUtils - 'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [http://localhost] for server URL [http://localhost/]
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/tags/default_api.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/docs/apis/tags/DefaultApi.md
+[main] INFO  o.o.codegen.utils.URLPathUtils - 'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [http://localhost] for server URL [http://localhost/]
+[main] WARN  o.o.c.t.HandlebarsEngineAdapter - Unregistered helper name 'description', processing template:
+{{{description}}}
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/README.md
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/tox.ini
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test-requirements.txt
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/requirements.txt
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/setup.cfg
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/git_push.sh
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.gitignore
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.travis.yml
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.gitlab-ci.yml
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/setup.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/configuration.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/exceptions.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/test/test_models/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/api_client.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/rest.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/schemas.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/models/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/model/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/openapi_client/apis/__init__.py
+[main] INFO  o.o.codegen.TemplateManager - Skipped /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.openapi-generator-ignore (Skipped by supportingFiles options supplied by user.)
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.openapi-generator/VERSION
+[main] INFO  o.o.codegen.TemplateManager - writing file /Users/alexanderfoley/mycode/openapi-client-libraries/./generated/.openapi-generator/FILES
+################################################################################
+# Thanks for using OpenAPI Generator.                                          #
+# Please consider donation to help us maintain this project 🙏                 #
+# https://opencollective.com/openapi_generator/donate                          #
+#                                                                              #
+# This generator was written by Justin Black (https://github.com/spacether)    #
+# Please support his work directly via https://github.com/sponsors/spacether 🙏#
+################################################################################
+```
+
+And BAM! A client library has been generated for your api and it was written to the `generated` directory.
+
+A quick note - The openapi-generator is a java jar file, so the _JAVA_OPTIONS flag makes a few JVM settings for the python generator per this [issue](https://github.com/OpenAPITools/openapi-generator/issues/11763).
+
+
