@@ -416,7 +416,7 @@ The openapi generator takes a few things as input to its cli:
 
 So the full command might look like:
 ```shell
-_JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED" openapi-generator generate -i http://127.0.0.1:8000/openapi.json -g python -o ./generated
+openapi-generator generate -i http://127.0.0.1:8000/openapi.json -g python -o ./generated
 ```
 
 So, let's give this a run:
