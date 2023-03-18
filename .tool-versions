@@ -1,0 +1,4 @@
+poetry 1.2.2
+python 3.9.2
+java openjdk-17
+gradle 7.4
