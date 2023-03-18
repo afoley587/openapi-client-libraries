@@ -515,3 +515,109 @@ And BAM! A client library has been generated for your api and it was written to 
 A quick note - The openapi-generator is a java jar file, so the _JAVA_OPTIONS flag makes a few JVM settings for the python generator per this [issue](https://github.com/OpenAPITools/openapi-generator/issues/11763).
 
 
+Before we use the library with python, we do need to install it. We can directly `pip` install that generated library from disk:
+
+```shell
+prompy> pip install ./generated 
+Processing ./generated
+  Preparing metadata (setup.py) ... done
+Requirement already satisfied: certifi>=14.5.14 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (2022.12.7)
+Requirement already satisfied: frozendict~=2.3.4 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (2.3.5)
+Requirement already satisfied: python-dateutil~=2.7.0 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (2.7.5)
+Requirement already satisfied: setuptools>=21.0.0 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (67.1.0)
+Requirement already satisfied: typing_extensions~=4.3.0 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (4.3.0)
+Requirement already satisfied: urllib3~=1.26.7 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from openapi-client==1.0.0) (1.26.14)
+Requirement already satisfied: six>=1.5 in /Users/alexanderfoley/Library/Caches/pypoetry/virtualenvs/openapi-client-libraries-da72NVFA-py3.9/lib/python3.9/site-packages (from python-dateutil~=2.7.0->openapi-client==1.0.0) (1.16.0)
+Building wheels for collected packages: openapi-client
+  Building wheel for openapi-client (setup.py) ... done
+  Created wheel for openapi-client: filename=openapi_client-1.0.0-py3-none-any.whl size=56852 sha256=fb3ac3aaaa06ac32d21b45253e1b0e90a0c5e17bf8785875e3e4b450163e66ec
+  Stored in directory: /private/var/folders/v7/xq3n2szs1511qnt_8t2q9qdm0000gp/T/pip-ephem-wheel-cache-x4rmj0oh/wheels/4c/20/ee/8548ca18756815bb4a32ce4d9c80479589f19e132f74c809b0
+Successfully built openapi-client
+Installing collected packages: openapi-client
+  Attempting uninstall: openapi-client
+    Found existing installation: openapi-client 1.0.0
+    Uninstalling openapi-client-1.0.0:
+      Successfully uninstalled openapi-client-1.0.0
+Successfully installed openapi-client-1.0.0
+
+[notice] A new release of pip is available: 23.0 -> 23.0.1
+[notice] To update, run: pip install --upgrade pip
+```
+
+And we are ready to use our client library!
+
+Let's open up a new python file `some-client/clientapp.py` and write a few
+lines of python!
+
+```python
+import time
+import openapi_client
+from pprint import pprint
+from openapi_client.apis.tags import default_api
+from openapi_client.model.http_validation_error import HTTPValidationError
+from openapi_client.model.ping_request import PingRequest
+from openapi_client.model.ping_response import PingResponse
+```
+
+First, we have to import a few items from our library:
+
+* `openapi_client` - Our entire library
+* `default_api` - Our default API objects which wrapes the gets/posts/puts/etc.
+* `HTTPValidationError` - A validation error custom generated for our API
+* `PingRequest` - The ping request object we created with our server
+* `PingResponse` - The ping response object we created with our server
+
+Then we can configure our client to point it to our server:
+
+```python
+configuration = openapi_client.Configuration(
+    host = "http://localhost:8000"
+)
+```
+
+and then finally, send a request:
+
+```python
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = default_api.DefaultApi(api_client)
+    ping_request = PingRequest(
+        ping="ping_example",
+        pong="pong_example",
+    ) # PingRequest | 
+
+    try:
+        # Deleteping
+        api_response = api_instance.delete_ping_ping_delete(ping_request)
+        pprint(api_response.body)
+    except openapi_client.ApiException as e:
+        print("Exception when calling DefaultApi->delete_ping_ping_delete: %s\n" % e)
+```
+
+We start by opening an API client connection, generating a ping request object matching
+the schema our server expects, and then sending a ping DELETE request.
+
+Let's do a quick test run:
+
+```shell
+prompt> python ./some-client/clientapp.py 
+DynamicSchema({'ping': 'ping', 'pong': 'pong'})
+```
+
+And lets check our logs:
+
+```shell
+prompy> uvicorn app:app --reload
+INFO:     Will watch for changes in these directories: ['/Users/alexanderfoley/mycode/openapi-client-libraries/api']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [76994] using StatReload
+INFO:     Started server process [77115]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:51527 - "DELETE /ping HTTP/1.1" 200 OK
+```
+
+And that's all there is to it!
+
+All code can be found in this public [GitHub Repo](https://github.com/afoley587/openapi-client-libraries).
