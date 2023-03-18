@@ -362,6 +362,10 @@ and navigate to a few pages:
 * http://127.0.0.1:8000/docs
 * http://127.0.0.1:8000/openapi.json
 
+They should look something like the below:
+
+![Docs](./imgs/docs.png)
+![OpenAPI Json](./imgs/openapi-json.png)
 
 We are going to use the [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) to generate
 our client libraries for us. It's free, easy to install, and easy to use.
